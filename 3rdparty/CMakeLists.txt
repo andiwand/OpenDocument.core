@@ -45,6 +45,11 @@ FetchContent_Declare(
         GIT_TAG fix/cmake
 )
 FetchContent_Declare(
+        httplib
+        GIT_REPOSITORY https://github.com/yhirose/cpp-httplib
+        GIT_TAG v0.5.9
+)
+FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
         GIT_TAG release-1.10.0
@@ -95,6 +100,11 @@ if (NOT json_POPULATED)
     FetchContent_Populate(json)
     set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
     add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif ()
+FetchContent_GetProperties(httplib)
+if (NOT httplib_POPULATED)
+    FetchContent_Populate(httplib)
+    add_subdirectory(${httplib_SOURCE_DIR} ${httplib_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif ()
 
 if (ODR_TEST)

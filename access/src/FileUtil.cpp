@@ -9,11 +9,10 @@ namespace odr {
 namespace access {
 
 std::string FileUtil::read(const std::string &path) {
-  std::ifstream in(path);
+  std::ifstream in{path};
   if (!in.is_open() || in.fail()) {
     throw FileNotFound(std::strerror(errno));
   }
-
   std::string result;
 
   try {
@@ -29,6 +28,11 @@ std::string FileUtil::read(const std::string &path) {
   }
 
   return result;
+}
+
+void FileUtil::write(const std::string &content, const std::string &path) {
+  std::ofstream file{path};
+  file << content;
 }
 
 } // namespace access
