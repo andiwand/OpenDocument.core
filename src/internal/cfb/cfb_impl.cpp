@@ -1,8 +1,8 @@
+#include <algorithm>
 #include <cstring>
 #include <internal/cfb/cfb_impl.h>
 #include <odr/exceptions.h>
 #include <utility>
-#include <algorithm>
 
 namespace odr::internal::cfb::impl {
 
