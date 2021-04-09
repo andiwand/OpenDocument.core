@@ -52,7 +52,7 @@ jobs:
       - name: make
         run: |
           cd build
-          cmake --build . -- -j4
+          cmake --build .
 
       - name: test
         working-directory: build/test
