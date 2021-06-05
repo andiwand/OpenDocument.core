@@ -23,7 +23,11 @@ target_include_directories(odr-interface INTERFACE include)
 add_library(odr-object OBJECT
         src/document.cpp
         src/exceptions.cpp
-        src/file_meta.cpp
+        src/file.cpp
+        src/file_no_except.cpp
+        src/html.cpp
+        src/open_document_reader.cpp
+        src/open_strategy.cpp
 
         src/internal/abstract/file.cpp
 
@@ -43,26 +47,26 @@ add_library(odr-object OBJECT
         src/internal/crypto/crypto_util.cpp
 
         src/internal/odf/odf_crypto.cpp
+        src/internal/odf/odf_document.cpp
+        src/internal/odf/odf_file.cpp
         src/internal/odf/odf_manifest.cpp
         src/internal/odf/odf_meta.cpp
-        src/internal/odf/odf_translator.cpp
-        src/internal/odf/odf_translator_content.cpp
-        src/internal/odf/odf_translator_style.cpp
+        src/internal/odf/odf_style.cpp
+        src/internal/odf/odf_table.cpp
 
-        src/internal/oldms/oldms_translator.cpp
+        src/internal/oldms/oldms_file.cpp
 
         src/internal/ooxml/ooxml_crypto.cpp
-        src/internal/ooxml/ooxml_document_translator.cpp
+        src/internal/ooxml/ooxml_file.cpp
         src/internal/ooxml/ooxml_meta.cpp
-        src/internal/ooxml/ooxml_presentation_translator.cpp
-        src/internal/ooxml/ooxml_translator.cpp
-        src/internal/ooxml/ooxml_workbook_translator.cpp
+        src/internal/ooxml/ooxml_text_document.cpp
 
         src/internal/svm/svm_file.cpp
         src/internal/svm/svm_format.cpp
         src/internal/svm/svm_to_svg.cpp
 
         src/internal/util/file_util.cpp
+        src/internal/util/hash_util.cpp
         src/internal/util/odr_meta_util.cpp
         src/internal/util/stream_util.cpp
         src/internal/util/string_util.cpp

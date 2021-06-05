@@ -1,7 +1,7 @@
 #include <iostream>
 #include <odr/document.h>
-#include <odr/html_config.h>
-#include <optional>
+#include <odr/file.h>
+#include <odr/html.h>
 #include <string>
 
 using namespace odr;
@@ -15,16 +15,11 @@ int main(int argc, char **argv) {
     password = argv[3];
   }
 
-  HtmlConfig config;
-  config.entry_offset = 0;
-  config.entry_count = 0;
-  config.editable = true;
+  DocumentFile document_file{input};
 
-  const odr::Document document{input};
-
-  if (document.encrypted()) {
+  if (document_file.password_encrypted()) {
     if (password) {
-      if (!document.decrypt(*password)) {
+      if (!document_file.decrypt(*password)) {
         std::cerr << "wrong password" << std::endl;
         return 1;
       }
@@ -34,7 +29,10 @@ int main(int argc, char **argv) {
     }
   }
 
-  document.translate(output, config);
+  auto document = document_file.document();
+
+  HtmlConfig config;
+  html::translate(document, "", output, config);
 
   return 0;
 }

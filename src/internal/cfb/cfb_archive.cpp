@@ -2,6 +2,7 @@
 #include <internal/cfb/cfb_archive.h>
 #include <internal/cfb/cfb_util.h>
 #include <internal/util/string_util.h>
+#include <odr/file.h>
 
 namespace odr::internal::cfb {
 

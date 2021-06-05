@@ -10,17 +10,22 @@ add_executable(odr_test
         ${CMAKE_CURRENT_BINARY_DIR}/src/test_constants.cpp
 
         src/document_test.cpp
+        src/file_no_except_test.cpp
+        src/file_test.cpp
         src/output_reference_test.cpp
 
         src/internal/cfb/cfb_archive_test.cpp
 
         src/internal/common/archive_test.cpp
+        src/internal/common/cache_test.cpp
         src/internal/common/path_test.cpp
         src/internal/common/table_cursor_test.cpp
         src/internal/common/table_position_test.cpp
         src/internal/common/table_range_test.cpp
 
         src/internal/ooxml/ooxml_crypto_test.cpp
+
+        src/internal/svm/svm_test.cpp
 
         src/internal/zip/miniz_test.cpp
         src/internal/zip/zip_archive_test.cpp

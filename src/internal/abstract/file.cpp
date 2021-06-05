@@ -1,5 +1,6 @@
+#include <internal/abstract/document.h>
 #include <internal/abstract/file.h>
-#include <odr/file_category.h>
+#include <odr/file.h>
 
 namespace odr::internal::abstract {
 
@@ -13,6 +14,18 @@ FileCategory ImageFile::file_category() const noexcept {
 
 FileCategory ArchiveFile::file_category() const noexcept {
   return FileCategory::ARCHIVE;
+}
+
+FileCategory DocumentFile::file_category() const noexcept {
+  return FileCategory::DOCUMENT;
+}
+
+DocumentType DocumentFile::document_type() const {
+  return document()->document_type();
+}
+
+DocumentMeta DocumentFile::document_meta() const {
+  return {}; // TODO
 }
 
 } // namespace odr::internal::abstract

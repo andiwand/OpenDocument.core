@@ -8,6 +8,9 @@ enum class FileType;
 enum class FileCategory;
 enum class FileLocation;
 struct FileMeta;
+enum class EncryptionState;
+enum class DocumentType;
+struct DocumentMeta;
 } // namespace odr
 
 namespace odr::internal::abstract {
@@ -52,6 +55,20 @@ public:
   [[nodiscard]] FileCategory file_category() const noexcept final;
 
   [[nodiscard]] virtual std::shared_ptr<Archive> archive() const = 0;
+};
+
+class DocumentFile : public DecodedFile {
+public:
+  [[nodiscard]] FileCategory file_category() const noexcept final;
+
+  [[nodiscard]] virtual bool password_encrypted() const noexcept = 0;
+  [[nodiscard]] virtual EncryptionState encryption_state() const noexcept = 0;
+  [[nodiscard]] virtual bool decrypt(const std::string &password) = 0;
+
+  [[nodiscard]] virtual DocumentType document_type() const;
+  [[nodiscard]] virtual DocumentMeta document_meta() const;
+
+  [[nodiscard]] virtual std::shared_ptr<Document> document() const = 0;
 };
 
 } // namespace odr::internal::abstract

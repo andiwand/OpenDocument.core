@@ -6,8 +6,7 @@
 #include <internal/util/stream_util.h>
 #include <internal/util/xml_util.h>
 #include <odr/exceptions.h>
-#include <odr/file_meta.h>
-#include <odr/file_type.h>
+#include <odr/file.h>
 #include <pugixml.hpp>
 
 namespace odr::internal::odf {
@@ -77,11 +76,13 @@ FileMeta parse_file_meta(const abstract::ReadableFilesystem &filesystem,
       }
     }
     if (!manifest->select_nodes("//manifest:encryption-data").empty()) {
-      result.encrypted = true;
+      result.password_encrypted = true;
     }
   }
 
-  if (result.encrypted == decrypted) {
+  DocumentMeta document_meta;
+
+  if (result.password_encrypted == decrypted) {
     if (filesystem.is_file("meta.xml")) {
       const auto meta_xml = util::xml::parse(filesystem, "meta.xml");
 
@@ -95,17 +96,17 @@ FileMeta parse_file_meta(const abstract::ReadableFilesystem &filesystem,
           if (!page_count) {
             break;
           }
-          result.entry_count = page_count.as_uint();
+          document_meta.entry_count = page_count.as_uint();
         } break;
         case FileType::OPENDOCUMENT_PRESENTATION: {
-          result.entry_count = 0;
+          document_meta.entry_count = 0;
         } break;
         case FileType::OPENDOCUMENT_SPREADSHEET: {
           const auto table_count = statistics.attribute("meta:table-count");
           if (!table_count) {
             break;
           }
-          result.entry_count = table_count.as_uint();
+          document_meta.entry_count = table_count.as_uint();
         } break;
         case FileType::OPENDOCUMENT_GRAPHICS: {
         } break;
@@ -114,42 +115,9 @@ FileMeta parse_file_meta(const abstract::ReadableFilesystem &filesystem,
         }
       }
     }
-
-    // TODO dont load content twice (happens in case of translation)
-    const auto content_xml = util::xml::parse(filesystem, "content.xml");
-    const auto body =
-        content_xml.child("office:document-content").child("office:body");
-    if (!body) {
-      throw NoOpenDocumentFile();
-    }
-
-    switch (result.type) {
-    case FileType::OPENDOCUMENT_GRAPHICS:
-    case FileType::OPENDOCUMENT_PRESENTATION: {
-      result.entry_count = 0;
-      for (auto &&e : body.select_nodes("//draw:page")) {
-        ++result.entry_count;
-        FileMeta::Entry entry;
-        entry.name = e.node().attribute("draw:name").as_string();
-        result.entries.emplace_back(entry);
-      }
-    } break;
-    case FileType::OPENDOCUMENT_SPREADSHEET: {
-      result.entry_count = 0;
-      for (auto &&e : body.select_nodes("//table:table")) {
-        ++result.entry_count;
-        FileMeta::Entry entry;
-        entry.name = e.node().attribute("table:name").as_string();
-        // TODO configuration
-        estimate_table_dimensions(e.node(), entry.row_count, entry.column_count,
-                                  10000, 500);
-        result.entries.emplace_back(entry);
-      }
-    } break;
-    default:
-      break;
-    }
   }
+
+  result.document_meta = std::move(document_meta);
 
   return result;
 }

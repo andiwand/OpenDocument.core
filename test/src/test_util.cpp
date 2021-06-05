@@ -2,7 +2,6 @@
 #include <filesystem>
 #include <internal/common/path.h>
 #include <nlohmann/json.hpp>
-#include <odr/file_meta.h>
 #include <test_util.h>
 
 using namespace odr;
@@ -50,19 +49,22 @@ std::vector<TestFile> get_test_files(const std::string &input) {
 
   // TODO this will also recurse `.git`
   for (auto &&p : fs::recursive_directory_iterator(input)) {
-    if (!p.is_regular_file())
+    if (!p.is_regular_file()) {
       continue;
+    }
     const std::string path = p.path().string();
     if (const auto it =
             std::find_if(std::begin(result), std::end(result),
                          [&](auto &&file) { return file.path == path; });
-        it != std::end(result))
+        it != std::end(result)) {
       continue;
+    }
 
     const auto file = get_test_file(path);
 
-    if (file.type == FileType::UNKNOWN)
+    if (file.type == FileType::UNKNOWN) {
       continue;
+    }
     result.push_back(file);
   }
 
