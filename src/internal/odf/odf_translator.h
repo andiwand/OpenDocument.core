@@ -26,7 +26,8 @@ public:
   OpenDocumentTranslator(OpenDocumentTranslator &&) noexcept = default;
   ~OpenDocumentTranslator() final;
   OpenDocumentTranslator &operator=(const OpenDocumentTranslator &) = delete;
-  OpenDocumentTranslator &operator=(OpenDocumentTranslator &&) noexcept = default;
+  OpenDocumentTranslator &
+  operator=(OpenDocumentTranslator &&) noexcept = default;
 
   [[nodiscard]] const FileMeta &meta() const noexcept final;
   [[nodiscard]] const abstract::ReadableFilesystem &filesystem() const noexcept;

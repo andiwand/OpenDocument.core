@@ -21,7 +21,8 @@ public:
   OfficeOpenXmlTranslator(OfficeOpenXmlTranslator &&) noexcept = default;
   ~OfficeOpenXmlTranslator() final;
   OfficeOpenXmlTranslator &operator=(const OfficeOpenXmlTranslator &) = delete;
-  OfficeOpenXmlTranslator &operator=(OfficeOpenXmlTranslator &&) noexcept = default;
+  OfficeOpenXmlTranslator &
+  operator=(OfficeOpenXmlTranslator &&) noexcept = default;
 
   [[nodiscard]] const FileMeta &meta() const noexcept final;
 
