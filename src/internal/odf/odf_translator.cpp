@@ -136,13 +136,7 @@ OpenDocumentTranslator::OpenDocumentTranslator(
   }
 }
 
-OpenDocumentTranslator::OpenDocumentTranslator(
-    OpenDocumentTranslator &&) noexcept = default;
-
 OpenDocumentTranslator::~OpenDocumentTranslator() = default;
-
-OpenDocumentTranslator &
-OpenDocumentTranslator::operator=(OpenDocumentTranslator &&) noexcept = default;
 
 const FileMeta &OpenDocumentTranslator::meta() const noexcept { return m_meta; }
 
